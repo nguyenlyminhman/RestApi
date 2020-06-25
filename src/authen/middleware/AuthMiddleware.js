@@ -1,6 +1,6 @@
 const jwtHelper = require("../helpers/jwt.helper");
 // Mã secretKey này phải được bảo mật tuyệt đối, các bạn có thể lưu vào biến môi trường hoặc file
-const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || "access-token-secret-vobachnhac-designed-@CLV";
+const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || "access-token-secret";
 /**
  * Middleware: Authorization user by Token
  * @param {*} req 
