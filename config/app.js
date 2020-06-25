@@ -12,7 +12,7 @@ let protectRoutes = require('../routes/protectRoutes');
 
 let app = express();
 
-// app.use(logger('dev'));
+app.use(morgan('dev'));
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 // app.use(cookieParser());
@@ -20,9 +20,9 @@ app.use(bodyparser.urlencoded({ extended: true }));
 
 //config for log file.
 // create a rotating write stream
-var accessLogStream = rfs.createStream('access.log', {
+var accessLogStream = rfs.createStream(new Date().toDateString() + '-access.log', {
   interval: '1d', // rotate daily
-   path: path.join('../../log')
+   path: path.join(__dirname, '../logger')
 })
 
 // setup the logger
