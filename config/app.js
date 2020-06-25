@@ -1,19 +1,32 @@
-var express = require('express');
-var bodyparser = require('body-parser');
-// var path = require('path');
+let express = require('express');
+let bodyparser = require('body-parser');
+let path = require('path');
 // var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+let morgan = require('morgan');
+let rfs = require('rotating-file-stream') // version 2.x
 
-var indexRouter = require('../routes/index');
-var usersRouter = require('../routes/users');
+let router = express.Router();
 
-var app = express();
+let unProtectRoutes = require('../routes/unProtectRoutes');
+let protectRoutes = require('../routes/protectRoutes');
 
-app.use(logger('dev'));
+let app = express();
+
+// app.use(logger('dev'));
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 // app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')));
+ app.use(express.static(path.join(__dirname, 'public')));
+
+//config for log file.
+// create a rotating write stream
+var accessLogStream = rfs.createStream('access.log', {
+  interval: '1d', // rotate daily
+   path: path.join('../../log')
+})
+
+// setup the logger
+app.use(morgan('combined', { stream: accessLogStream }))
 
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -22,7 +35,9 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api', router);
+unProtectRoutes.init(router);
+//using middleware to protect the bellow routes
+protectRoutes.init(router);
 
 module.exports = app;

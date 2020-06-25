@@ -3,9 +3,7 @@ var oracledb = require('oracledb');
 //set auto commit for insert or update
 oracledb.autoCommit = true;
 
-var OraModel = {
-    getTest: getTest
-}
+
 
 let getTest = async () => {
     let conn
@@ -20,6 +18,10 @@ let getTest = async () => {
             await conn.close()
         }
     }
+}
+
+var OraModel = {
+    getTest: getTest
 }
 
 module.exports = OraModel;
