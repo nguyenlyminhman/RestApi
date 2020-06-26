@@ -4,10 +4,10 @@ const pg = require('pg');
 
 let conn = {
    mysql: {
-      host : '10.91.120.57',
-      user : 'joget',
-      password : '!QAZ2wsx',
-      database : 'jwdb',
+      host : '127.0.0.1',
+      user : 'root',
+      password : '',
+      database : 'test',
       type: 'mysql'
    },
    oracle: {

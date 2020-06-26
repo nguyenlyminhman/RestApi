@@ -2,8 +2,7 @@ let express = require('express');
 let bodyparser = require('body-parser');
 let path = require('path');
 // var cookieParser = require('cookie-parser');
-let morgan = require('morgan');
-let rfs = require('rotating-file-stream') // version 2.x
+let moment = require('moment')
 
 let router = express.Router();
 
@@ -12,21 +11,10 @@ let protectRoutes = require('../routes/protectRoutes');
 
 let app = express();
 
-app.use(morgan('dev'));
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 // app.use(cookieParser());
  app.use(express.static(path.join(__dirname, 'public')));
-
-//config for log file.
-// create a rotating write stream
-var accessLogStream = rfs.createStream(new Date().toDateString() + '-access.log', {
-  interval: '1d', // rotate daily
-   path: path.join(__dirname, '../logger')
-})
-
-// setup the logger
-app.use(morgan('combined', { stream: accessLogStream }))
 
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
