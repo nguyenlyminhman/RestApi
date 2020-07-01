@@ -9,7 +9,7 @@ let getTestPg = async () => {
         let sql = `SELECT * FROM public.account_info`
         return await pool.query(sql)
     } catch (err) {
-        console.log('getTestPg! ', err)
+        console.log('getTestPg! ', err.message)
     } finally {
         client.release()
     }
