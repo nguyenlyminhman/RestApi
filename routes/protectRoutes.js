@@ -8,7 +8,7 @@ const OraController = require("../src/controller/OraController");
  * @param {*} app from express
  */
 let protectAPIs = (app) => {
-  router.get("/demo/get-protect", OraController.getTest)
+  router.get("/demo/get-protect", OraController.getTestOracle)
   
   return app.use("/", router);
 }

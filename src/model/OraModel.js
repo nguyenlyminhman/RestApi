@@ -5,7 +5,7 @@ oracledb.autoCommit = true;
 
 
 
-let getTest = async () => {
+let getTestOracle = async () => {
     let conn
     try {
         let sql = `Select 'abc' from dual`
@@ -21,7 +21,7 @@ let getTest = async () => {
 }
 
 var OraModel = {
-    getTest: getTest
+    getTestOracle: getTestOracle
 }
 
 module.exports = OraModel;

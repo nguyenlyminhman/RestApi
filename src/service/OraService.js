@@ -1,12 +1,12 @@
 var OraModel = require("../model/OraModel");
 
 var OraService = {
-    test: test
+    getTestOracle: getTestOracle
 }
 
-function test() {
+function getTestOracle() {
     return new Promise((resolve, reject) => {
-        OraModel.getTest().then((data) => {
+        OraModel.getTestOracle().then((data) => {
             resolve(data);
         }).catch((err) => {
             reject(err);

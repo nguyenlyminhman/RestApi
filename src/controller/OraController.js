@@ -1,8 +1,8 @@
 const OraService = require('../service/OraService');
 
-let getTest = async (req, res) => {
+let getTestOracle = async (req, res) => {
     try {
-        let { rows } = await OraService.test();
+        let { rows } = await OraService.getTestOracle();
         if (rows.length == 0) {
             return res.status(200).json({ success: false, message: "Data not exist" });
         }
@@ -20,5 +20,5 @@ let getTest = async (req, res) => {
 }
 
 module.exports = {
-    getTest: getTest
+    getTestOracle: getTestOracle
 };
