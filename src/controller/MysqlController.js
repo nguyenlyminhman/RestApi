@@ -2,10 +2,12 @@
  * This controller used for Mysql
  */
 const MySqlService = require('../service/MySqlService');
+// const MysqlModel = require('../model/MysqlModel');
 
 let getTestMysql = async (req, res) => {
     try {
         let rows = await MySqlService.testMySql();
+        // let rows = await MysqlModel.testMySql();
         if (rows.length == 0) {
             return res.status(200).json({ success: false, message: "Data not exist" });
         }
