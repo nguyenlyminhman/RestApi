@@ -1,12 +1,15 @@
 const OraService = require('../service/OraService');
 // const OraModel = require('../model/OraModel');
+const StatusCode = require('../../common/ResponseStatusCode');
+const ResponseObject = require('../../common/ResponseObject');
+const RESP_MSG = require('../../common/ResponseMessage')
 
 let getTestOracle = async (req, res) => {
     try {
         let { rows } = await OraService.getTestOracle();
         // let { rows } = await OraModel.getTestOracle();
         if (rows.length == 0) {
-            return res.status(200).json({ success: false, message: "Data not exist" });
+            return res.status(StatusCode.OK).json(new ResponseObject(true, RESP_MSG.SUCCESS, rows));
         }
         let listDataDetail = [];
         rows.forEach(element => {
@@ -15,9 +18,9 @@ let getTestOracle = async (req, res) => {
             }
             listDataDetail.push(body);
         });
-        return res.status(200).json({ data: listDataDetail, success: true, message: "Test success" });
+        return res.status(StatusCode.OK).json(new ResponseObject(true, RESP_MSG.SUCCESS, rows));
     } catch (error) {
-        return res.status(500).json(error);
+        return res.status(StatusCode.InternalServerError).json(new ResponseObject(false, RESP_MSG.SERVER_ERROR , []));
     }
 }
 
