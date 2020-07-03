@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+let Auth = require('../src/authen/middleware/AuthMiddleware');
 const OraController = require("../src/controller/OraController");
 
 /**
@@ -8,8 +8,8 @@ const OraController = require("../src/controller/OraController");
  * @param {*} app from express
  */
 let protectAPIs = (app) => {
+  router.use(Auth.isAuth)
   router.get("/demo/get-protect", OraController.getTestOracle)
-  
   return app.use("/", router);
 }
 module.exports.init = protectAPIs;

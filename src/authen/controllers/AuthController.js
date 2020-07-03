@@ -8,11 +8,11 @@ let tokenList = {};
 // Thời gian sống của token
 const accessTokenLife = process.env.ACCESS_TOKEN_LIFE || "1h";
 // Mã secretKey này phải được bảo mật tuyệt đối, các bạn có thể lưu vào biến môi trường hoặc file
-const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || "Nguyen Ly Minh Man";
+const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || "My_Secret_Key";
 // Thời gian sống của refreshToken
 const refreshTokenLife = process.env.REFRESH_TOKEN_LIFE || "3650d";
 // Mã secretKey này phải được bảo mật tuyệt đối, các bạn có thể lưu vào biến môi trường hoặc file
-const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET || "Nguyen Ly Minh Man";
+const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET || "My_Secret_Key";
 /**
  * controller login
  * @param {*} req 

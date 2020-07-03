@@ -1,6 +1,6 @@
 const jwtHelper = require("../helpers/jwt.helper");
 // Mã secretKey này phải được bảo mật tuyệt đối, các bạn có thể lưu vào biến môi trường hoặc file
-const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || "access-token-secret";
+const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || "My_Secret_Key";
 /**
  * Middleware: Authorization user by Token
  * @param {*} req 
@@ -15,7 +15,7 @@ let isAuth = async (req, res, next) => {
   }
   // console.log("query",req.query);
 
-  const tokenFromClient = req.body.token || req.query.token || req.headers["x-access-token"];
+  const tokenFromClient = req.body.token || req.query.token || req.headers["authentication"];
   if (tokenFromClient) {
     // Nếu tồn tại token
     try {

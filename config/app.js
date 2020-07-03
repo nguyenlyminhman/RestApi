@@ -1,6 +1,7 @@
 let express = require('express');
 let bodyparser = require('body-parser');
 let path = require('path');
+
 // var cookieParser = require('cookie-parser');
 let moment = require('moment')
 
@@ -14,7 +15,7 @@ let app = express();
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 // app.use(cookieParser());
- app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');

@@ -1,5 +1,6 @@
 let connection = require('../../config/database');
-const { cli } = require('winston/lib/winston/config');
+const Logger = require('../../common/logger')
+
 let Pool = require('pg').Pool;
 
 let pool = new Pool(connection.pg)
