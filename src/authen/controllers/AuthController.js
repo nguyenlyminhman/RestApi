@@ -1,6 +1,6 @@
 const jwtHelper = require("../helpers/jwt.helper");
 const bcrypt = require('bcrypt');
-const adminService = require('../../services/admin');
+// const adminService = require('../../services/admin');
 
 // Biến cục bộ trên server này sẽ lưu trữ tạm danh sách token
 // Trong dự án thực tế, nên lưu chỗ khác, có thể lưu vào Redis hoặc DB

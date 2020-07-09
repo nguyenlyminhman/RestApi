@@ -3,9 +3,9 @@
  */
 const MySqlService = require('../service/MySqlService');
 // const MysqlModel = require('../model/MysqlModel');
-const StatusCode = require('../../common/ResponseStatusCode');
-const ResponseObject = require('../../common/ResponseObject');
-const RESP_MSG = require('../../common/ResponseMessage')
+const StatusCode = require('../../common/response/ResponseStatusCode');
+const ResponseObject = require('../../common/response/ResponseObject');
+const RESP_MSG = require('../../common/response/ResponseMessage')
 
 let getTestMysql = async (req, res) => {
     try {

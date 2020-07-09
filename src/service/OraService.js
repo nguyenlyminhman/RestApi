@@ -4,6 +4,7 @@ var OraService = {
     getTestOracle: getTestOracle
 }
 
+
 function getTestOracle() {
     return new Promise((resolve, reject) => {
         OraModel.getTestOracle().then((data) => {

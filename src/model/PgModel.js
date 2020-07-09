@@ -1,5 +1,5 @@
 let connection = require('../../config/database');
-const Logger = require('../../common/logger')
+const Logger = require('../../common/logger/logger')
 
 let Pool = require('pg').Pool;
 
@@ -11,6 +11,18 @@ let getTestPg = async () => {
         return await pool.query(sql)
     } catch (err) {
         console.log('getTestPg! ', err.message)
+    } finally {
+        client.release()
+    }
+}
+
+let getUsername = async (username) => {
+    let client = await pool.connect()
+    try {
+        let sql = `SELECT accountid FROM public.account_info where accountid = $1`
+        return await pool.query(sql, [username])
+    } catch (err) {
+        console.log('getUsername! ', err.message)
     } finally {
         client.release()
     }
@@ -34,6 +46,7 @@ function getTestPg() {
 
 let PgModel = {
     getTestPg: getTestPg,
+    getUsername : getUsername
 }
 
 module.exports = PgModel;

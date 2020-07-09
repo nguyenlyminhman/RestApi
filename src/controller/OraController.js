@@ -1,8 +1,8 @@
 const OraService = require('../service/OraService');
 // const OraModel = require('../model/OraModel');
-const StatusCode = require('../../common/ResponseStatusCode');
-const ResponseObject = require('../../common/ResponseObject');
-const RESP_MSG = require('../../common/ResponseMessage')
+const StatusCode = require('../../common/response/ResponseStatusCode');
+const ResponseObject = require('../../common/response/ResponseObject');
+const RESP_MSG = require('../../common/response/ResponseMessage')
 
 let getTestOracle = async (req, res) => {
     try {

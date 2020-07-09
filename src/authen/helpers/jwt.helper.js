@@ -31,13 +31,8 @@ let generateToken = (user, secretSignature, tokenLife) => {
  * @param {*} secretKey 
  */
 let verifyToken = (token, secretKey) => {
-  console.log("token \n", token);
-  console.log("secretKey \n", secretKey);
-
   return new Promise((resolve, reject) => {
     jwt.verify(token, secretKey, (error, decoded) => {
-      console.log(error);
-      console.log(decoded);
       if (error) {
         return reject(error);
       }
@@ -45,6 +40,7 @@ let verifyToken = (token, secretKey) => {
     });
   });
 }
+
 module.exports = {
   generateToken: generateToken,
   verifyToken: verifyToken,

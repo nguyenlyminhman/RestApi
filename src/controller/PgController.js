@@ -3,10 +3,10 @@
  */
 const PgService = require('../service/PgService');
 const PgModel = require('../model/PgModel');
-const StatusCode = require('../../common/ResponseStatusCode');
-const ResponseObject = require('../../common/ResponseObject');
-const RESP_MSG = require('../../common/ResponseMessage')
-const logger = require('../../common/logger');
+const StatusCode = require('../../common/response/ResponseStatusCode');
+const ResponseObject = require('../../common/response/ResponseObject');
+const RESP_MSG = require('../../common/response/ResponseMessage')
+const logger = require('../../common/logger/logger');
 
 let getTestPg = async (req, res) => {
     try {

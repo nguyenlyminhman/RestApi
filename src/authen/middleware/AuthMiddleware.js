@@ -9,13 +9,12 @@ const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || "My_Secret_Key";
  */
 let isAuth = async (req, res, next) => {
   // Lấy token được gửi lên từ phía client, thông thường tốt nhất là các bạn nên truyền token vào header
-  if (req.url == "/adm/login") {
-    next();
-    return;
-  }
+  // if (req.url == "/adm/login") {
+  //   next();
+  //   return;
+  // }
   // console.log("query",req.query);
-
-  const tokenFromClient = req.body.token || req.query.token || req.headers["authentication"];
+  const tokenFromClient = req.body.token || req.query.token || req.headers["authorization"];
   if (tokenFromClient) {
     // Nếu tồn tại token
     try {
@@ -27,7 +26,6 @@ let isAuth = async (req, res, next) => {
       next();
     } catch (error) {
       // Nếu giải mã gặp lỗi: Không đúng, hết hạn...etc:
-
       return res.status(401).json({
         message: 'Unauthorized.',
       });
