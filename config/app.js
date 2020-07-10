@@ -7,8 +7,8 @@ let moment = require('moment')
 
 let router = express.Router();
 
-let unProtectRoutes = require('../routes/unProtectRoutes');
-let protectRoutes = require('../routes/protectRoutes');
+let unProtectRoutes = require('../src/routes/unProtectRoutes');
+let protectRoutes = require('../src/routes/protectRoutes');
 
 let app = express();
 
