@@ -33,8 +33,8 @@ let login = async (req, res) => {
     let result = await PgService.checkUsername(username, password);
     // console.log(result.rows[0]);
 
-    if(result.rowCount == 0){
-      return res.status(404).json({success: false, message: "Username or Password no exist system"});
+    if (result.rowCount == 0) {
+      return res.status(404).json({ success: false, message: "Username or Password no exist system" });
     }
 
     let dbPassword = result.rows[0].password;
@@ -81,24 +81,18 @@ let refreshToken = async (req, res) => {
       const decoded = await jwtHelper.verifyToken(refreshTokenFromClient, refreshTokenSecret);
       // Thông tin user lúc này các bạn có thể lấy thông qua biến decoded.data
       // có thể mở comment dòng debug bên dưới để xem là rõ nhé.
-      // debug("decoded: ", decoded);
       const userFakeData = decoded.data;
-      // debug(`Thực hiện tạo mã Token trong bước gọi refresh Token, [thời gian sống vẫn là 1 giờ.]`);
+      // Thực hiện tạo mã Token trong bước gọi refresh Token, [thời gian sống vẫn là 1 giờ.];
       const accessToken = await jwtHelper.generateToken(userFakeData, accessTokenSecret, accessTokenLife);
       // gửi token mới về cho người dùng
       return res.status(200).json({ accessToken });
     } catch (error) {
       // Lưu ý trong dự án thực tế hãy bỏ dòng debug bên dưới, mình để đây để debug lỗi cho các bạn xem thôi
-      debug(error);
-      res.status(403).json({
-        message: 'Invalid refresh token.',
-      });
+      res.status(403).json({ message: 'Invalid refresh token.' });
     }
   } else {
     // Không tìm thấy token trong request
-    return res.status(403).send({
-      message: 'No token provided.',
-    });
+    return res.status(403).send({ message: 'No token provided.' });
   }
 };
 module.exports = {

@@ -3,7 +3,7 @@ const router = express.Router();
 let Auth = require('../authen/middleware/AuthMiddleware');
 const cors = require('cors')
 const OraController = require("../controller/OraController");
-const AuthController = require("../authen/controllers/AuthController")
+const AuthController = require("../authen/controllers/AuthController");
 
 /**
  * Init all the protect APIs on your application
