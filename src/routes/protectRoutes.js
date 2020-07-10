@@ -1,16 +1,15 @@
 const express = require("express");
 const router = express.Router();
-let Auth = require('../src/authen/middleware/AuthMiddleware');
+let Auth = require('../authen/middleware/AuthMiddleware');
 const cors = require('cors')
-const OraController = require("../src/controller/OraController");
-const AuthController = require("../src/authen/controllers/AuthController")
+const OraController = require("../controller/OraController");
+const AuthController = require("../authen/controllers/AuthController")
 
 /**
  * Init all the protect APIs on your application
  * @param {*} app from express
  */
 let protectAPIs = (app) => {
-  router.post("/demo/login", )
   router.use(cors({
     origin: '*',
     methods: "GET, POST, PUT, DELETE",
