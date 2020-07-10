@@ -16,10 +16,10 @@ let getTestPg = async () => {
     }
 }
 
-let getUsername = async (username) => {
+let checkUsername = async (username, password) => {
     let client = await pool.connect()
     try {
-        let sql = `SELECT accountid FROM public.account_info where accountid = $1`
+        let sql = `SELECT accountid, password FROM public.account_info where accountid = $1`
         return await pool.query(sql, [username])
     } catch (err) {
         console.log('getUsername! ', err.message)
@@ -29,7 +29,7 @@ let getUsername = async (username) => {
 }
 
 /*
-* Can use this functio
+* Can use this function
 */
 /*
 function getTestPg() {
@@ -46,7 +46,7 @@ function getTestPg() {
 
 let PgModel = {
     getTestPg: getTestPg,
-    getUsername : getUsername
+    checkUsername : checkUsername
 }
 
 module.exports = PgModel;

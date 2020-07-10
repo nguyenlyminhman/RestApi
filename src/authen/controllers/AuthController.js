@@ -1,6 +1,6 @@
 const jwtHelper = require("../helpers/jwt.helper");
 const bcrypt = require('bcrypt');
-// const adminService = require('../../services/admin');
+const PgService = require('../../service/PgService');
 
 // Biến cục bộ trên server này sẽ lưu trữ tạm danh sách token
 // Trong dự án thực tế, nên lưu chỗ khác, có thể lưu vào Redis hoặc DB
@@ -20,8 +20,6 @@ const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET || "My_Secret_Key";
  */
 let login = async (req, res) => {
   try {
-    console.log("body",req.body);
-
     // Mình sẽ comment mô tả lại một số bước khi làm thực tế cho các bạn như sau nhé:
     // - Đầu tiên Kiểm tra xem email người dùng đã tồn tại trong hệ thống hay chưa?
     // - Nếu chưa tồn tại thì reject: User not found.
@@ -29,38 +27,38 @@ let login = async (req, res) => {
     // - Nếu password sai thì reject: Password is incorrect.
     // - Nếu password đúng thì chúng ta bắt đầu thực hiện tạo mã JWT và gửi về cho người dùng.
     // Trong ví dụ demo này mình sẽ coi như tất cả các bước xác thực ở trên đều ok, mình chỉ xử lý phần JWT trở về sau thôi nhé:
-    
-    const {password, username } = req.body;
+
+    const { password, username } = req.body;
     // console.log(req.body.username)
-    let result = await adminService.login(username, password);
-    const {rows, metaData } = result;
-    if(rows.length == 0){
+    let result = await PgService.checkUsername(username, password);
+    // console.log(result.rows[0]);
+
+    if(result.rowCount == 0){
       return res.status(404).json({success: false, message: "Username or Password no exist system"});
     }
-    let myDB = rows[0][3];
-    //thực hiện hash password----------------------------
-    const match = await bcrypt.compareSync(password.trim(), myDB.trim()); // false
-    // console.log(match);
-    if(!match){
-      return res.status(404).json({success: false, message:"Password is incorrect"});
+
+    let dbPassword = result.rows[0].password;
+    //thực hiện compare password----------------------------
+    const match = await bcrypt.compareSync(password, dbPassword); // false
+    if (!match) {
+      return res.status(404).json({ success: false, message: "Password is incorrect" });
     }
-    const userFakeData = {
-      username: rows[0][2],
-      name: rows[0][4]
+    // lấy thông tin người dùng
+    const userInfo = {
+      username: result.rows[0].accountid
     };
-    console.log(userFakeData);
     // debug(`Thực hiện tạo mã Token, [thời gian sống 1 giờ.]`);
-    const accessToken = await jwtHelper.generateToken(userFakeData, accessTokenSecret, accessTokenLife);
-    
+    const accessToken = await jwtHelper.generateToken(userInfo, accessTokenSecret, accessTokenLife);
+
     // debug(`Thực hiện tạo mã Refresh Token, [thời gian sống 10 năm] =))`);
-    const refreshToken = await jwtHelper.generateToken(userFakeData, refreshTokenSecret, refreshTokenLife);
+    const refreshToken = await jwtHelper.generateToken(userInfo, refreshTokenSecret, refreshTokenLife);
     // Lưu lại 2 mã access & Refresh token, với key chính là cái refreshToken để đảm bảo unique và không sợ hacker sửa đổi dữ liệu truyền lên.
     // lưu ý trong dự án thực tế, nên lưu chỗ khác, có thể lưu vào Redis hoặc DB
-    tokenList[refreshToken] = {accessToken, refreshToken};
-    
+    tokenList[refreshToken] = { accessToken, refreshToken };
+
     // debug(`Gửi Token và Refresh Token về cho client...`);
-    
-    return res.status(200).json( {success:true,accessToken, data:{ ...userFakeData, token: accessToken}});
+
+    return res.status(200).json({ success: true, accessToken, data: { ...userInfo, token: accessToken } });
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -74,7 +72,7 @@ let refreshToken = async (req, res) => {
   // User gửi mã refresh token kèm theo trong body
   const refreshTokenFromClient = req.body.refreshToken;
   // debug("tokenList: ", tokenList);
-  
+
   // Nếu như tồn tại refreshToken truyền lên và nó cũng nằm trong tokenList của chúng ta
 
   if (refreshTokenFromClient && (tokenList[refreshTokenFromClient])) {
@@ -88,7 +86,7 @@ let refreshToken = async (req, res) => {
       // debug(`Thực hiện tạo mã Token trong bước gọi refresh Token, [thời gian sống vẫn là 1 giờ.]`);
       const accessToken = await jwtHelper.generateToken(userFakeData, accessTokenSecret, accessTokenLife);
       // gửi token mới về cho người dùng
-      return res.status(200).json({accessToken});
+      return res.status(200).json({ accessToken });
     } catch (error) {
       // Lưu ý trong dự án thực tế hãy bỏ dòng debug bên dưới, mình để đây để debug lỗi cho các bạn xem thôi
       debug(error);
