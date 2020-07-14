@@ -14,7 +14,9 @@ let initUnauthenAPIs = (app) => {
   router.get("/demo/get-test-oracle", OraController.getTestOracle);
   router.get("/demo/get-test-mysql", MysqlController.getTestMysql);
   router.get("/demo/get-test-pg", PgController.getTestPg);
-  router.post("/demo/login", AuthController.login)
+  
+  router.post("/demo/login", AuthController.login);
+  router.post("/demo/refresh-token", AuthController.refreshToken);
   return app.use("/", router);
 }
 module.exports.init = initUnauthenAPIs;

@@ -19,7 +19,7 @@ let getTestPg = async () => {
 let checkUsername = async (username, password) => {
     let client = await pool.connect()
     try {
-        let sql = `SELECT accountid, password FROM public.account_info where accountid = $1`
+        let sql = `SELECT * FROM public.account_info where accountid = $1`
         return await pool.query(sql, [username])
     } catch (err) {
         console.log('getUsername! ', err.message)

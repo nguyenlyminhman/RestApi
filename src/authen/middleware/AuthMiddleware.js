@@ -28,10 +28,9 @@ let isAuth = async (req, res, next) => {
       let username = decoded.data.username;
       let result = await PgService.checkUsername(username, null);
       // Cho phép req đi tiếp sang controller.
-      if (result.rowCount > 0)
-        next();
-      else
-        return res.status(403).send({ message: 'Invalid token provided.' });
+      if (result.rowCount === 0)
+        return res.status(400).send({ message: 'Invalid token provided.' });
+      next();
     } catch (error) {
       // Nếu giải mã gặp lỗi: Không đúng, hết hạn...etc:
       return res.status(403).json({ message: 'Invalid token provided.' });

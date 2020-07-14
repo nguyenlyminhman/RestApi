@@ -45,7 +45,9 @@ let login = async (req, res) => {
     }
     // lấy thông tin người dùng
     const userInfo = {
-      username: result.rows[0].accountid
+      username: result.rows[0].accountid,
+      isadmin: result.rows[0].isadmin,
+      isblocked: result.rows[0].isblocked,
     };
     // debug(`Thực hiện tạo mã Token, [thời gian sống 1 giờ.]`);
     const accessToken = await jwtHelper.generateToken(userInfo, accessTokenSecret, accessTokenLife);
@@ -54,11 +56,10 @@ let login = async (req, res) => {
     const refreshToken = await jwtHelper.generateToken(userInfo, refreshTokenSecret, refreshTokenLife);
     // Lưu lại 2 mã access & Refresh token, với key chính là cái refreshToken để đảm bảo unique và không sợ hacker sửa đổi dữ liệu truyền lên.
     // lưu ý trong dự án thực tế, nên lưu chỗ khác, có thể lưu vào Redis hoặc DB
-    tokenList[refreshToken] = { accessToken, refreshToken };
-
+    tokenList[refreshToken] = { accessToken, refreshToken };    
     // debug(`Gửi Token và Refresh Token về cho client...`);
 
-    return res.status(200).json({ success: true, accessToken, data: { ...userInfo, token: accessToken } });
+    return res.status(200).json({ success: true, refreshToken, data: { ...userInfo, accessToken: accessToken } });
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -74,7 +75,7 @@ let refreshToken = async (req, res) => {
   // debug("tokenList: ", tokenList);
 
   // Nếu như tồn tại refreshToken truyền lên và nó cũng nằm trong tokenList của chúng ta
-
+  console.log(tokenList[refreshTokenFromClient]);
   if (refreshTokenFromClient && (tokenList[refreshTokenFromClient])) {
     try {
       // Verify kiểm tra tính hợp lệ của cái refreshToken và lấy dữ liệu giải mã decoded 
