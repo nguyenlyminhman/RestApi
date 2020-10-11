@@ -6,9 +6,12 @@ let Pool = require('pg').Pool;
 let pool = new Pool(connection.pg)
 let getTestPg = async () => {
     let client = await pool.connect()
+    // console.log(client);
     try {
         let sql = `SELECT * FROM public.account_info`
-        return await pool.query(sql)
+        let res = await pool.query(sql);
+        await pool.end()
+        return res;
     } catch (err) {
         console.log('getTestPg! ', err.message)
     } finally {
@@ -20,7 +23,9 @@ let checkUsername = async (username, password) => {
     let client = await pool.connect()
     try {
         let sql = `SELECT * FROM public.account_info where accountid = $1`
-        return await pool.query(sql, [username])
+        let res = await pool.query(sql, [username])
+        await pool.end()
+        return res;
     } catch (err) {
         console.log('getUsername! ', err.message)
     } finally {
@@ -46,7 +51,7 @@ function getTestPg() {
 
 let PgModel = {
     getTestPg: getTestPg,
-    checkUsername : checkUsername
+    checkUsername: checkUsername
 }
 
 module.exports = PgModel;
