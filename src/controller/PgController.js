@@ -3,9 +3,7 @@
  */
 const PgService = require('../service/PgService');
 const PgModel = require('../model/PgModel');
-const StatusCode = require('../../common/response/ResponseStatusCode');
-const ResponseObject = require('../../common/response/ResponseObject');
-const RESP_MSG = require('../../common/response/ResponseMessage')
+const Response = require('../../common/response/ResponseTemplate');
 const logger = require('../../common/logger/logger');
 
 let getTestPg = async (req, res) => {
@@ -14,12 +12,12 @@ let getTestPg = async (req, res) => {
         // let rows = await PgModel.getTestPg() 
         logger.info('this is log infor ')
         if (rows.length == 0) {
-            return res.status(StatusCode.OK).json(new ResponseObject(true, RESP_MSG.SUCCESS, rows));
+            return Response.OK(res, rows);
         }
-        return res.status(StatusCode.OK).json(new ResponseObject(true, RESP_MSG.SUCCESS, rows));
+        return Response.OK(res, rows);
     } catch (error) {
         logger.error('getTestPg: ' + error.message)
-        return res.status(StatusCode.InternalServerError).json(new ResponseObject(false, RESP_MSG.SERVER_ERROR , []));
+        return Response.ERROR(res, []);
     }
 }
 
