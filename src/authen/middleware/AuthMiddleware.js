@@ -33,7 +33,7 @@ let isAuth = async (req, res, next) => {
       next();
     } catch (error) {
       // Nếu giải mã gặp lỗi: Không đúng, hết hạn...etc:
-      return res.status(403).json({ message: 'Invalid token provided.' });
+      return res.status(403).json({ message: 'Token expired.' });
     }
   } else {
     // Không tìm thấy token trong request
