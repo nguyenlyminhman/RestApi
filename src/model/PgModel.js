@@ -9,8 +9,7 @@ let getTestPg = async () => {
     // console.log(client);
     try {
         let sql = `SELECT * FROM public.account_info`
-        let res = await pool.query(sql);
-        await pool.end()
+        let res = await client.query(sql);
         return res;
     } catch (err) {
         console.log('getTestPg! ', err.message)
@@ -23,8 +22,7 @@ let checkUsername = async (username, password) => {
     let client = await pool.connect()
     try {
         let sql = `SELECT * FROM public.account_info where accountid = $1`
-        let res = await pool.query(sql, [username])
-        await pool.end()
+        let res = await client.query(sql, [username])
         return res;
     } catch (err) {
         console.log('getUsername! ', err.message)
