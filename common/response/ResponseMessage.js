@@ -20,5 +20,7 @@ module.exports = {
 
     UPLOAD_SUCCESS: "Upload successful",
 
-    UPLOAD_FAIL: "Upload fail"
+    UPLOAD_FAIL: "Upload fail",
+
+    BAD_REQUEST: "Bad request"
 }
